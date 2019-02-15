@@ -1,18 +1,18 @@
 package main
 
 import (
+	"bytes"
 	"os/exec"
 	"strings"
 )
 
 func getNode() string {
-	if !checkFileExtExists(cwd, ".js") {
-		return ""
+	var o bytes.Buffer
+	if checkFileExtExists(cwd, ".js") {
+		o.WriteString(getEnvVar("FANCY_PROMPT_NODE_ICON"))
+		out, _ := exec.Command("/usr/local/bin/node", "-v").CombinedOutput()
+		o.WriteString(strings.Trim(string(out), "\r\n "))
+		o.WriteString(sep)
 	}
-	var output []string
-	output = append(output, getEnvVar("FANCY_PROMPT_NODE_ICON"))
-	out, _ := exec.Command("/usr/local/bin/node", "-v").CombinedOutput()
-	output = append(output, strings.Trim(string(out), "\r\n "))
-	output = append(output, " ")
-	return colorize(strings.Join(output, ""), getEnvVar("FANCY_PROMPT_NODE_COLOR"))
+	return colorize(o.String(), getEnvVar("FANCY_PROMPT_NODE_COLOR"))
 }

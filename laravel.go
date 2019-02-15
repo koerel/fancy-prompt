@@ -1,8 +1,8 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"os"
 )
@@ -17,21 +17,21 @@ type lockfile struct {
 }
 
 func getLaravel() string {
+	var o bytes.Buffer
 	_, err := os.Stat(cwd + "/composer.lock")
 	if err == nil {
-		color := getEnvVar("FANCY_PROMPT_LARAVEL_COLOR")
-		icon := getEnvVar("FANCY_PROMPT_LARAVEL_ICON")
-
 		data, _ := ioutil.ReadFile(cwd + "/composer.lock")
 		var i lockfile
 		err := json.Unmarshal(data, &i)
 		if err == nil {
 			for _, p := range i.Packages {
 				if p.Name == "laravel/framework" {
-					return colorize(fmt.Sprintf("%s", icon)+p.Version+" ", color)
+					o.WriteString(getEnvVar("FANCY_PROMPT_LARAVEL_ICON"))
+					o.WriteString(p.Version)
+					o.WriteString(sep)
 				}
 			}
 		}
 	}
-	return ""
+	return colorize(o.String(), getEnvVar("FANCY_PROMPT_LARAVEL_COLOR"))
 }

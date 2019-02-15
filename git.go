@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"os"
 	"os/exec"
 	"strings"
@@ -15,28 +16,36 @@ func isGit() bool {
 }
 
 func getGit() string {
-	if !isGit() {
-		return ""
+	var o bytes.Buffer
+	if isGit() {
+		o.WriteString(getEnvVar("FANCY_PROMPT_GIT_ICON"))
+		out, _ := exec.Command("/usr/bin/git", "status", "--porcelain", "-b").CombinedOutput()
+		lines := strings.Split(string(out), "\n")
+		changes := ""
+		if strings.Contains(lines[0], "## No commits yet on") {
+			o.WriteString(strings.Replace(lines[0], "## No commits yet on ", "", 1))
+		} else {
+			o.WriteString(strings.Replace(strings.Split(lines[0], "...")[0], "## ", "", 1))
+		}
+		if strings.Contains(lines[0], "ahead") {
+			changes += getEnvVar("FANCY_PROMPT_ARROW_UP")
+		}
+		if strings.Contains(lines[0], "behind") {
+			changes += getEnvVar("FANCY_PROMPT_ARROW_DOWN")
+		}
+		changes += getModified(lines)
+		if len(changes) > 0 {
+			o.WriteString(getEnvVar("FANCY_PROMPT_GIT_LEFT_BRACKET"))
+			o.WriteString(changes)
+			o.WriteString(getEnvVar("FANCY_PROMPT_GIT_RIGHT_BRACKET"))
+		}
+		o.WriteString(sep)
 	}
-	color := getEnvVar("FANCY_PROMPT_GIT_COLOR")
-	icon := getEnvVar("FANCY_PROMPT_GIT_ICON")
-	leftBracket := getEnvVar("FANCY_PROMPT_GIT_LEFT_BRACKET")
-	rightBracket := getEnvVar("FANCY_PROMPT_GIT_RIGHT_BRACKET")
-	out, _ := exec.Command("/usr/bin/git", "status", "--porcelain", "-b").CombinedOutput()
-	lines := strings.Split(string(out), "\n")
-	output := ""
-	changes := ""
-	if strings.Contains(lines[0], "## No commits yet on") {
-		output += strings.Replace(lines[0], "## No commits yet on ", "", 1)
-	} else {
-		output += strings.Replace(strings.Split(lines[0], "...")[0], "## ", "", 1)
-	}
-	if strings.Contains(lines[0], "ahead") {
-		changes += getEnvVar("FANCY_PROMPT_ARROW_UP")
-	}
-	if strings.Contains(lines[0], "behind") {
-		changes += getEnvVar("FANCY_PROMPT_ARROW_DOWN")
-	}
+	return colorize(o.String(), getEnvVar("FANCY_PROMPT_GIT_COLOR"))
+}
+
+func getModified(lines []string) string {
+	var changes string
 	for _, l := range lines {
 		if len(l) > 2 {
 			flags := l[0:2]
@@ -57,12 +66,9 @@ func getGit() string {
 				if !strings.Contains(changes, getEnvVar("FANCY_PROMPT_GIT_STAGED_ICON")) {
 					changes += getEnvVar("FANCY_PROMPT_GIT_STAGED_ICON")
 				}
+
 			}
 		}
 	}
-	if len(changes) > 0 {
-		output += leftBracket + changes + rightBracket
-	}
-
-	return colorize(icon+output+" ", color)
+	return changes
 }
