@@ -18,7 +18,7 @@ precmd() { /usr/local/bin/fancy-prompt }
 
 ## Configuration
 
-- options should be exported in your .zshrc e.g. `export export FANCY_PROMPT_GIT_COLOR=#ff0000`
+- options should be exported in your .zshrc e.g. `export FANCY_PROMPT_GIT_COLOR=#ff0000`
 - you can enable/disable/order segments by exporting the `export FANCY_PROMPT_PARTS` variable
 - colors are expected as HEX
 - icons can be text or [Nerd Font codepoints](https://nerdfonts.com/#cheat-sheet)
