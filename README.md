@@ -1,14 +1,39 @@
 # Fancy Prompt
 
+> A pretty fast ZSH prompt written in Go
+
+## Features
+
+- Hostname
+- Username
+- Path
+- Git branch & status
+- NodeJS version
+- PHP version
+- Laravel version
+- Ember version
+
 ## Screenshots
 
-![laravel](img/screen.jpg)
-![ember](img/screen2.jpg)
+![preview](img/screen.png)
 
 ## Installation
 
+### Macos
+
 - use a [Nerd Font](https://github.com/ryanoasis/nerd-fonts) in your terminal
-- run `curl https://s3-eu-west-1.amazonaws.com/bgr-assets/prompt/builds/fancy-prompt -o /usr/local/bin/fancy-prompt && chmod +x /usr/local/bin/fancy-prompt`
+- run `curl https://s3-eu-west-1.amazonaws.com/bgr-assets/prompt/builds/fancy-prompt-macos -o /usr/local/bin/fancy-prompt && chmod +x /usr/local/bin/fancy-prompt`
+- add following lines to .zshrc
+```zsh
+export FANCY_PROMPT_SYMBOL=$'\uf95c'
+PROMPT='%(?.%F{green}.%F{red})${export FANCY_PROMPT_SYMBOL}%f '
+precmd() { /usr/local/bin/fancy-prompt }
+```
+
+### Linux
+
+- use a [Nerd Font](https://github.com/ryanoasis/nerd-fonts) in your terminal
+- run `curl https://s3-eu-west-1.amazonaws.com/bgr-assets/prompt/builds/fancy-prompt-linux -o /usr/local/bin/fancy-prompt && chmod +x /usr/local/bin/fancy-prompt`
 - add following lines to .zshrc
 ```zsh
 export FANCY_PROMPT_SYMBOL=$'\uf95c'
@@ -19,7 +44,7 @@ precmd() { /usr/local/bin/fancy-prompt }
 ## Configuration
 
 - options should be exported in your .zshrc e.g. `export FANCY_PROMPT_GIT_COLOR=#ff0000`
-- you can enable/disable/order segments by exporting the `export FANCY_PROMPT_PARTS` variable
+- you can enable/disable/order segments by setting `export FANCY_PROMPT_PARTS=path,git,ember` for example
 - colors are expected as HEX
 - icons can be text or [Nerd Font codepoints](https://nerdfonts.com/#cheat-sheet)
 
@@ -27,6 +52,7 @@ precmd() { /usr/local/bin/fancy-prompt }
 
 ```zsh
 export FANCY_PROMPT_PARTS="user hostname path git node php laravel ember time"
+export FANCY_PROMPT_SEPARATOR= 
 export FANCY_PROMPT_PATH_COLOR=#DD098F 
 export FANCY_PROMPT_PATH_ICON=\ue5ff  
 export FANCY_PROMPT_USER_COLOR=#ffffff
