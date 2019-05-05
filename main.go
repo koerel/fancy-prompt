@@ -65,5 +65,5 @@ func cleanDir() string {
 	path := filepath.Clean(cwd)
 	path = strings.Replace(icon+path, os.Getenv("HOME"), "~", 1)
 
-	return colorize(path+" ", color)
+	return colorize(path+sep, color)
 }
