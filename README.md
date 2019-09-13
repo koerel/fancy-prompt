@@ -12,6 +12,7 @@
 - PHP version
 - Laravel version
 - Ember version
+- Time
 
 ## Screenshots
 

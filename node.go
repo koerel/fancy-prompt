@@ -10,7 +10,8 @@ func getNode() string {
 	var o bytes.Buffer
 	if checkFileExtExists(cwd, ".js") {
 		o.WriteString(getEnvVar("FANCY_PROMPT_NODE_ICON"))
-		out, _ := exec.Command("/usr/local/bin/node", "-v").CombinedOutput()
+		cmd := getPath("node")
+		out, _ := exec.Command(cmd, "-v").CombinedOutput()
 		o.WriteString(strings.Trim(string(out), "\r\n "))
 		o.WriteString(sep)
 	}

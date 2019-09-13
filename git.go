@@ -19,7 +19,9 @@ func getGit() string {
 	var o bytes.Buffer
 	if isGit() {
 		o.WriteString(getEnvVar("FANCY_PROMPT_GIT_ICON"))
-		out, _ := exec.Command("/usr/bin/git", "status", "--porcelain", "-b").CombinedOutput()
+		cmd := getPath("git")
+		go exec.Command(cmd, "fetch").CombinedOutput()
+		out, _ := exec.Command(cmd, "status", "--porcelain", "-b").CombinedOutput()
 		lines := strings.Split(string(out), "\n")
 		changes := ""
 		if strings.Contains(lines[0], "## No commits yet on") {

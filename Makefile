@@ -1,4 +1,4 @@
-steps := clean macos linux deploy-macos deploy-linux
+steps := clean macos linux
 
 .PHONY: $(steps)
 
@@ -12,9 +12,3 @@ macos:
 
 linux:
 	env GOOS=linux GOARCH=amd64 go build -o builds/fancy-prompt-linux *.go
-
-deploy-macos:
-	aws s3 cp builds/fancy-prompt-macos s3://bgr-assets/prompt/builds/fancy-prompt-macos --acl public-read
-
-deploy-linux:
-	aws s3 cp builds/fancy-prompt-macos s3://bgr-assets/prompt/builds/fancy-prompt-macos --acl public-read
