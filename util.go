@@ -12,7 +12,7 @@ import (
 	"golang.org/x/sys/unix"
 )
 
-const localVariables = "FANCY_PROMPT_PARTS=user hostname path git node php laravel ember time\n" +
+const localVariables = "FANCY_PROMPT_PARTS=user hostname path git node php laravel ember go time\n" +
 	"FANCY_PROMPT_SEPARATOR= \n" +
 	"FANCY_PROMPT_PATH_COLOR=#DD098F\n" +
 	"FANCY_PROMPT_PATH_ICON=\ue5ff \n" +
@@ -38,6 +38,8 @@ const localVariables = "FANCY_PROMPT_PARTS=user hostname path git node php larav
 	"FANCY_PROMPT_LARAVEL_ICON=\ue73f \n" +
 	"FANCY_PROMPT_PHP_COLOR=#8892BF\n" +
 	"FANCY_PROMPT_PHP_ICON=\ue73d \n" +
+	"FANCY_PROMPT_GO_COLOR=#00ADD8\n" +
+	"FANCY_PROMPT_GO_ICON=\ue626 \n" +
 	"FANCY_PROMPT_TIME_COLOR=#25BDB1\n" +
 	"FANCY_PROMPT_TIME_ICON=\uf64f "
 

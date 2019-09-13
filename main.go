@@ -43,6 +43,9 @@ func main() {
 		case "ember":
 			b.WriteString(getEmber())
 			break
+		case "go":
+			b.WriteString(getGo())
+			break
 		case "time":
 			b.WriteString(getTime())
 			break

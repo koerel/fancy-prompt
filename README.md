@@ -20,6 +20,16 @@
 
 ## Installation
 
+### From source
+
+- `git clone git@github.com:koerel/fancy-prompt.git`
+- `go install`
+- add following lines to .zshrc
+```zsh
+PROMPT='%(?.%F{green}.%F{red})Ͽ%f '
+precmd() { fancy-prompt }
+```
+
 ### Macos
 
 - use a [Nerd Font](https://github.com/ryanoasis/nerd-fonts) in your terminal
