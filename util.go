@@ -6,10 +6,7 @@ import (
 	"os"
 	"os/exec"
 	"regexp"
-	"strconv"
 	"strings"
-
-	"golang.org/x/sys/unix"
 )
 
 const localVariables = "FANCY_PROMPT_PARTS=user hostname path git node php laravel ember go time\n" +
@@ -66,15 +63,6 @@ func getEnvVar(name string) string {
 	panic(1)
 }
 
-func getTerminalSize() (uint16, uint16) {
-	ws, err := unix.IoctlGetWinsize(int(os.Stdout.Fd()), unix.TIOCGWINSZ)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	return ws.Row, ws.Col
-}
-
 func checkFileExtExists(dirname string, ext string) bool {
 	f, err := os.Open(dirname)
 	if err != nil {
@@ -106,11 +94,6 @@ func getPath(cmd string) string {
 	return cleanPath
 }
 
-func hex2int(str string) int {
-	result, _ := strconv.ParseInt(str, 16, 64)
-	return int(result)
-}
-
 func colorize(text string, h string) string {
-	return fmt.Sprintf("\033[38;2;%d;%d;%dm%s\033[0m", hex2int(h[1:3]), hex2int(h[3:5]), hex2int(h[5:7]), text)
+	return fmt.Sprintf("\033[0;%sm%s\033[0m", h, text)
 }

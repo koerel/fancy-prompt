@@ -21,34 +21,26 @@ func main() {
 		switch part {
 		case "user":
 			b.WriteString(getUser())
-			break
 		case "path":
 			b.WriteString(cleanDir())
-			break
 		case "git":
 			b.WriteString(getGit())
-			break
 		case "hostname":
 			b.WriteString(getHostname())
-			break
 		case "node":
 			b.WriteString(getNode())
-			break
 		case "php":
 			b.WriteString(getPhp())
-			break
 		case "laravel":
 			b.WriteString(getLaravel())
-			break
 		case "ember":
 			b.WriteString(getEmber())
-			break
 		case "go":
 			b.WriteString(getGo())
-			break
 		case "time":
 			b.WriteString(getTime())
-			break
+		case "kubernetes":
+			b.WriteString(getCluster())
 		}
 	}
 	fmt.Println(b.String())
