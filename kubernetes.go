@@ -7,8 +7,7 @@ import (
 
 func getCluster() string {
 	var o bytes.Buffer
-
-	out, _ := exec.Command("kubectl", "config", "current-context").CombinedOutput()
+	out, _ := exec.Command("kubectl", "config", "view", "--minify", "-o", "jsonpath={.contexts[0].context.cluster}::{.contexts[0].context.namespace}").CombinedOutput()
 	v := string(out)
 	o.WriteString(getEnvVar("FANCY_PROMPT_KUBERNETES_ICON"))
 	o.WriteString(v)
