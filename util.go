@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/exec"
 	"regexp"
+	"strconv"
 	"strings"
 )
 
@@ -38,6 +39,7 @@ const localVariables = "FANCY_PROMPT_PARTS=user hostname path git node php larav
 	"FANCY_PROMPT_GO_COLOR=#00ADD8\n" +
 	"FANCY_PROMPT_GO_ICON=\ue626 \n" +
 	"FANCY_PROMPT_TIME_COLOR=#25BDB1\n" +
+	"FANCY_PROMPT_DOCKER_COLOR=34\n" +
 	"FANCY_PROMPT_TIME_ICON=\uf64f "
 
 var uv = make(map[string]string)
@@ -94,6 +96,17 @@ func getPath(cmd string) string {
 	return cleanPath
 }
 
+func hex2int(str string) int {
+	result, _ := strconv.ParseInt(str, 16, 64)
+	return int(result)
+}
+
 func colorize(text string, h string) string {
+	if len(h) == 7 {
+		r := h[1:3]
+		g := h[3:5]
+		b := h[5:7]
+		return fmt.Sprintf("\033[38;2;%d;%d;%dm%s\033[0m", hex2int(r), hex2int(g), hex2int(b), text)
+	}
 	return fmt.Sprintf("\033[0;%sm%s\033[0m", h, text)
 }
